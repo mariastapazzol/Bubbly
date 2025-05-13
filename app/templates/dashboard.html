@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <h2>Bem-vindo, {{ current_user.nome }}!</h2>
+
+    <div class="dashboard-buttons">
+        <a href="{{ url_for('main.contatos') }}" class="dashboard-btn">
+            <i class="fas fa-address-book"></i> Contatos
+        </a>
+        <a href="{{ url_for('main.mensagens') }}" class="dashboard-btn">
+            <i class="fas fa-envelope"></i> Mensagens
+        </a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block title %}Contatos{% endblock %}
+{% block content %}
+
+<a href="{{ url_for('main.dashboard') }}" class="btn-voltar">←</a>
+
+<div class="contatos-header">
+    <h2>Meus Contatos</h2>
+    <button id="btn-novo-contato">+ Novo Contato</button>
+</div>
+
+<div id="form-container" style="display: none; margin-bottom: 30px;">
+    <form method="POST" class="card">
+        <h3>Adicione um novo contato</h3>
+        {{ form.hidden_tag() }}
+        <p>{{ form.nome.label }}<br>{{ form.nome }}</p>
+        <p>{{ form.email.label }}<br>{{ form.email }}</p>
+        <p>{{ form.celular.label }}<br>{{ form.celular }}</p>
+        <p>{{ form.submit(value='Salvar') }}</p>
+    </form>
+</div>
+
+<table class="card">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Celular</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for contato in contatos %}
+        <tr>
+            <td>{{ contato.nome }}</td>
+            <td>{{ contato.email }}</td>
+            <td>{{ contato.celular }}</td>
+           <td>
+            <a href="{{ url_for('main.editar_contato', id=contato.id) }}" title="Editar">
+                <i class="fas fa-pen"></i>
+            </a>
+            <a href="#" title="Excluir" onclick="confirmarExclusao('{{ contato.id }}')">
+                <i class="fas fa-trash-alt"></i>
+            </a>
+        </td>           
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="4">Nenhum contato cadastrado.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script>
+    document.getElementById("btn-novo-contato").addEventListener("click", function () {
+        const form = document.getElementById("form-container");
+        form.style.display = form.style.display === "none" ? "block" : "none";
+        window.scrollTo({ top: form.offsetTop - 20, behavior: 'smooth' });
+    });
+</script>
+
+{% endblock %}

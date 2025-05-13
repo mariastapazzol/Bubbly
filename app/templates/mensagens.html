@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}Mensagens{% endblock %}
+{% block content %}
+
+<a href="{{ url_for('main.dashboard') }}" class="btn-voltar">←</a>
+
+<form method="POST" class="card">
+    <h2>Enviar Mensagem</h2>
+    {{ form.hidden_tag() }}
+    <p>{{ form.contato_id.label }}<br>{{ form.contato_id }}</p>
+    <p>{{ form.titulo.label }}<br>{{ form.titulo }}</p>
+    <p>{{ form.texto.label }}<br>{{ form.texto }}</p>
+    <p>{{ form.submit }}</p>
+</form>
+
+<h3>Mensagens Enviadas</h3>
+<table class="card">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Texto</th>
+            <th>Data de Envio</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for msg in mensagens %}
+        <tr>
+            <td>{{ msg.id }}</td>
+            <td>{{ msg.titulo }}</td>
+            <td>{{ msg.texto }}</td>
+            <td>{{ msg.data_envio.strftime('%d/%m/%Y %H:%M') }}</td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="4">Nenhuma mensagem enviada.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

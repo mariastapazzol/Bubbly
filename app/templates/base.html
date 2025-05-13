@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Bubbly{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+    <header>
+        <h1>   
+             <img src="{{ url_for('static', filename='logomensagem.png') }}" alt="Logo Bubbly" class="logo">
+             Bubbly
+                </h1>
+        <nav>
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('main.logout') }}">Sair</a>
+            {% else %}
+                <a href="{{ url_for('main.login') }}">Login</a>
+                <a href="{{ url_for('main.register') }}">Registrar</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <main>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class="flash">
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <script>
+    function confirmarExclusao(id) {
+        if (confirm("Deseja realmente excluir este contato?")) {
+            const form = document.createElement("form");
+            form.method = "POST";
+            form.action = "/contatos/excluir/" + id;
+            document.body.appendChild(form);
+            form.submit();
+        }
+    }
+    </script>
+
+</body>
+</html>
